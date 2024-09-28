@@ -2,7 +2,7 @@
 #include "inc/sort.h"
 #include "inc/timer.h"
 
-#define ARRAY_SIZE 100000
+#define ARRAY_SIZE 1000000
 
 int main()
 {
@@ -12,16 +12,18 @@ int main()
     identity(test, ARRAY_SIZE);
     copy(copied, test, ARRAY_SIZE);
     shuffle(copied, ARRAY_SIZE);
-    // print(copied, ARRAY_SIZE);
 
     reset();
     printf("Começou!\n");
     start();
     insertionSort(copied, ARRAY_SIZE);
     stop();
-    printf("Acabou!\n");
-
-    // print(copied, ARRAY_SIZE);
+    printf("Acabou! Verificando...\n");
+    if (!compare(copied, test, ARRAY_SIZE))
+    {
+        printf("Ordenado!!!\n");
+    }
+    
     printf("\nTempo de execução: %lfs (%ld clocks)\n", getElapsedTimeInSeconds(), getElapsedTimeInClocks());
 
     return 0;
