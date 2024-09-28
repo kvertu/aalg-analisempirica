@@ -55,7 +55,7 @@ clock_t getElapsedTimeInClocks()
 
 double getElapsedTimeInSeconds()
 {
-    return (double) getElapsedTimeInClocks() / CLOCKS_PER_SEC;
+    return ((double) getElapsedTimeInClocks()) / CLOCKS_PER_SEC;
 }
 
 #endif
