@@ -29,13 +29,18 @@ void notImplemented()
 /*
     Mostra os resultados da ordenação
 */
-void showResults(int * v1, int * v2, int n)
+void showResults(int * ref, int * sorted, int n)
 {
     printf("Fim da função! Validando... ");
-    if (!compare(v1, v2, n))
+    if (!compare(ref, sorted, n))
         printf("Ordenado!\n");
     else
-        printf("Algo deu errado e o vetor não está ordenado.\n");
+    {
+        printf("Algo deu errado e o vetor não está ordenado.\nVetor original: ");
+        print(ref, n);
+        printf("Vetor \"Ordenado\": ");
+        print(sorted, n);
+    }
     printf("\nTempo de execução: %lfs (%ld clocks)\n\n", getElapsedTimeInSeconds(), getElapsedTimeInClocks());
 }
 
@@ -57,7 +62,7 @@ int main(int argc, char * argv[])
     int reference[qtde]; // Vetor de referência (usado para comparar com o vetor a ser ordenado)
     identity(reference, qtde);
     int shuffled[qtde]; // Vetor a ser ordenado
-    identity(shuffled, qtde);
+    copy(shuffled, reference, qtde);
 
     printf("Vetor de referência (tamanho: %d): ", qtde);
     print(reference, qtde);
@@ -77,21 +82,25 @@ int main(int argc, char * argv[])
             printf("Saindo...\n");
             break;
         case 1:
-            printf("Ordenando... ");
+            printf("Ordenando... \n");
             start();
             insertionSort(shuffled, qtde);
             stop();
             showResults(reference, shuffled, qtde);
             break;
         case 2:
-            printf("Ordenando... ");
+            printf("Ordenando... \n");
             start();
             selectionSort(shuffled, qtde);
             stop();
             showResults(reference, shuffled, qtde);
             break;
         case 3:
-            notImplemented();
+            printf("Ordenando... \n");
+            start();
+            mergeSort(shuffled, 0, qtde - 1);
+            stop();
+            showResults(reference, shuffled, qtde);
             break;
         case 4:
             notImplemented();
