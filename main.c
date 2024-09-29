@@ -103,7 +103,11 @@ int main(int argc, char * argv[])
             showResults(reference, shuffled, qtde);
             break;
         case 4:
-            notImplemented();
+            printf("Ordenando... \n");
+            start();
+            heapSort(shuffled, qtde);
+            stop();
+            showResults(reference, shuffled, qtde);
             break;
         case 5:
             notImplemented();

@@ -92,4 +92,43 @@ void mergeSort(int * v, int p, int r)
     }
 }
 
+void maxHeapify(int * v, int n, int i)
+{
+    int temp, maximum, left, right;
+
+    maximum = i;
+    right = 2 * i + 2;
+    left = 2 * i + 1;
+
+    if (left < n && v[left] > v[maximum])
+        maximum = left;
+
+    if (right < n && v[right] > v[maximum])
+        maximum = right;
+
+    if (maximum != i)
+    {
+        temp = v[i];
+        v[i] = v[maximum];
+        v[maximum] = temp;
+        maxHeapify(v, n, maximum);
+    }
+}
+
+void heapSort(int * v, int n)
+{
+    int i;
+
+    for (i = n / 2 - 1; i >= 0; i--)
+        maxHeapify(v, n, i);
+
+    for (int i = n - 1; i > 0; i--)
+    {
+        int temp = v[0];
+        v[0] = v[i];
+        v[i] = temp;
+        maxHeapify(v, i, 0);
+    }
+}
+
 #endif
