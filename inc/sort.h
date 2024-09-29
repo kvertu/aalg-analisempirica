@@ -76,6 +76,11 @@ void merge(int * v, int p, int q, int r)
     }
 }
 
+/*
+    Maior tamanho que o mergeSort consegue ordenar é 698558
+
+    É provável que isso seja uma limitação por usar estruturas auxiliares (os vetores left e right na função merge)
+*/
 void mergeSort(int * v, int p, int r)
 {
     if (p < r)
