@@ -79,9 +79,11 @@ int main(int argc, char * argv[])
         switch (choice)
         {
         case 0:
+            // Saindo do programa
             printf("Saindo...\n");
             break;
         case 1:
+            // Insertion sort
             printf("Ordenando... \n");
             start();
             insertionSort(shuffled, qtde);
@@ -89,6 +91,7 @@ int main(int argc, char * argv[])
             showResults(reference, shuffled, qtde);
             break;
         case 2:
+            // Selection sort
             printf("Ordenando... \n");
             start();
             selectionSort(shuffled, qtde);
@@ -96,6 +99,7 @@ int main(int argc, char * argv[])
             showResults(reference, shuffled, qtde);
             break;
         case 3:
+            // Merge sort
             printf("Ordenando... \n");
             start();
             mergeSort(shuffled, 0, qtde - 1);
@@ -103,6 +107,7 @@ int main(int argc, char * argv[])
             showResults(reference, shuffled, qtde);
             break;
         case 4:
+            // Quick sort
             printf("Ordenando... \n");
             start();
             quickSort(shuffled, 0, qtde - 1);
@@ -110,6 +115,7 @@ int main(int argc, char * argv[])
             showResults(reference, shuffled, qtde);
             break;
         case 5:
+            // Heap sort
             printf("Ordenando... \n");
             start();
             heapSort(shuffled, qtde);
