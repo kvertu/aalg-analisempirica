@@ -105,12 +105,16 @@ int main(int argc, char * argv[])
         case 4:
             printf("Ordenando... \n");
             start();
-            heapSort(shuffled, qtde);
+            quickSort(shuffled, 0, qtde - 1);
             stop();
             showResults(reference, shuffled, qtde);
             break;
         case 5:
-            notImplemented();
+            printf("Ordenando... \n");
+            start();
+            heapSort(shuffled, qtde);
+            stop();
+            showResults(reference, shuffled, qtde);
             break;
         
         default:

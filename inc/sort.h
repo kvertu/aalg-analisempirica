@@ -131,4 +131,36 @@ void heapSort(int * v, int n)
     }
 }
 
+int partition(int * v, int p, int r)
+{
+    int x = v[r]; // x é o pivô
+    int i = p - 1;
+
+    for (int j = p; j < r; j++)
+        if (v[j] <= x)
+        {
+            i++;
+
+            int temp = v[i];
+            v[i] = v[j];
+            v[j] = temp;
+        }
+
+    int temp = v[i + 1];
+    v[i + 1] = v[r];
+    v[r] = temp;
+
+    return i + 1;
+}
+
+void quickSort(int * v, int p, int r)
+{
+    if (p < r)
+    {
+        int q = partition(v, p, r);
+        quickSort(v, p, q - 1);
+        quickSort(v, q + 1, r);
+    }
+}
+
 #endif
