@@ -41,7 +41,7 @@ void showResults(int * ref, int * sorted, int n, long sum, int attempts)
         printf("Vetor \"Ordenado\": ");
         print(sorted, n);
     }
-    printf("\nTempo de execução média: %lfs (%lf clocks)\nNúmero de comparações média: %lf\n\n", getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sum / attempts);
+    printf("\nForam feitas %d ordenações.\nTempo de execução média: %lfs (%lf clocks)\nNúmero de comparações média: %lf\n\n", attempts, getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sum / attempts);
 }
 
 int main(int argc, char * argv[])

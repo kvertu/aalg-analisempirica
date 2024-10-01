@@ -32,6 +32,26 @@ void shuffle(int * v, int n)
 }
 
 /*
+    Inverte um vetor de tamanho n
+*/
+void invert(int * v, int n)
+{
+    for (int i = 0; i < n / 2; i++)
+    {
+        int temp = v[i];
+        v[i] = v[n - i - 1];
+        v[n - i - 1] = temp;
+    }
+}
+
+/*
+    Não faz nada
+*/
+void dontChange(int * v, int n) {
+    return;
+}
+
+/*
     Copia o conteudo do vetor src para dest (assumindo que eles tem tamanho igual)
 */
 void copy(int * dest, int * src, int n)
