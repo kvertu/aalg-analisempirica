@@ -29,7 +29,7 @@ void notImplemented()
 /*
     Mostra os resultados da ordenação
 */
-void showResults(int * ref, int * sorted, int n)
+void showResults(int * ref, int * sorted, int n, long sum, int attempts)
 {
     printf("Fim da função! Validando... ");
     if (!compare(ref, sorted, n))
@@ -41,40 +41,45 @@ void showResults(int * ref, int * sorted, int n)
         printf("Vetor \"Ordenado\": ");
         print(sorted, n);
     }
-    printf("\nTempo de execução: %lfs (%ld clocks)\n\n", getElapsedTimeInSeconds(), getElapsedTimeInClocks());
+    printf("\nTempo de execução média: %lfs (%lf clocks)\nNúmero de comparações média: %lf\n\n", getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sum / attempts);
 }
 
 int main(int argc, char * argv[])
 {
-    if (argc != 2)
+    if (argc != 3)
     {
         printf("Parâmetros inválidos.\n");
         return 0;
     }
-    int qtde = atoi(argv[1]);
-    if (qtde <= 0)
+    int tam = atoi(argv[1]);
+    int tentativas = atoi(argv[2]);
+    if (tam <= 0)
     {
-        printf("Quantidade inválida.\n");
+        printf("Tamanho de vetor inválida.\n");
+        return 0;
+    }
+    if (tentativas <= 0)
+    {
+        printf("Quantidade de tentativas inválidas.\n");
         return 0;
     }
 
     // Inicializa os vetores
-    int reference[qtde]; // Vetor de referência (usado para comparar com o vetor a ser ordenado)
-    identity(reference, qtde);
-    int shuffled[qtde]; // Vetor a ser ordenado
-    copy(shuffled, reference, qtde);
+    int reference[tam]; // Vetor de referência (usado para comparar com o vetor a ser ordenado)
+    identity(reference, tam);
+    int shuffled[tam]; // Vetor a ser ordenado
+    copy(shuffled, reference, tam);
 
-    printf("Vetor de referência (tamanho: %d): ", qtde);
-    print(reference, qtde);
+    printf("Vetor de referência (tamanho: %d): ", tam);
+    print(reference, tam);
 
     int choice;
     do
     {
+        long soma = 0;
         reset();
         helper();
         scanf(" %d", &choice);
-        
-        shuffle(shuffled, qtde);
 
         switch (choice)
         {
@@ -86,41 +91,61 @@ int main(int argc, char * argv[])
             // Insertion sort
             printf("Ordenando... \n");
             start();
-            insertionSort(shuffled, qtde);
+            for (int i = 0; i < tentativas; i++)
+            {
+                shuffle(shuffled, tam);
+                soma += insertionSort(shuffled, tam);
+            }
             stop();
-            showResults(reference, shuffled, qtde);
+            showResults(reference, shuffled, tam, soma, tentativas);
             break;
         case 2:
             // Selection sort
             printf("Ordenando... \n");
             start();
-            selectionSort(shuffled, qtde);
+            for (int i = 0; i < tentativas; i++)
+            {
+                shuffle(shuffled, tam);
+                soma += selectionSort(shuffled, tam);
+            }
             stop();
-            showResults(reference, shuffled, qtde);
+            showResults(reference, shuffled, tam, soma, tentativas);
             break;
         case 3:
             // Merge sort
             printf("Ordenando... \n");
             start();
-            mergeSort(shuffled, 0, qtde - 1);
+            for (int i = 0; i < tentativas; i++)
+            {
+                shuffle(shuffled, tam);
+                soma += mergeSort(shuffled, 0, tam - 1);
+            }
             stop();
-            showResults(reference, shuffled, qtde);
+            showResults(reference, shuffled, tam, soma, tentativas);
             break;
         case 4:
             // Quick sort
             printf("Ordenando... \n");
             start();
-            quickSort(shuffled, 0, qtde - 1);
+            for (int i = 0; i < tentativas; i++)
+            {
+                shuffle(shuffled, tam);
+                soma += quickSort(shuffled, 0, tam - 1);
+            }
             stop();
-            showResults(reference, shuffled, qtde);
+            showResults(reference, shuffled, tam, soma, tentativas);
             break;
         case 5:
             // Heap sort
             printf("Ordenando... \n");
             start();
-            heapSort(shuffled, qtde);
+            for (int i = 0; i < tentativas; i++)
+            {
+                shuffle(shuffled, tam);
+                soma += heapSort(shuffled, tam);
+            }
             stop();
-            showResults(reference, shuffled, qtde);
+            showResults(reference, shuffled, tam, soma, tentativas);
             break;
         
         default:

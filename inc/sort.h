@@ -1,36 +1,47 @@
 #ifndef SORT_H
 #define SORT_H
 
-void insertionSort(int * v, int n)
+long insertionSort(int * v, int n)
 {
+    long comparacoes = 0;
     for (int j = 1; j < n; j++)
     {
         int key = v[j];
         int i = j - 1;
+        comparacoes++;
         while (i >= 0 && v[i] > key)
         {
+            comparacoes++;
             v[i + 1] = v[i];
             i--;
         }
         v[i + 1] = key;
     }
+    return comparacoes;
 }
 
-void selectionSort(int * v, int n)
+long selectionSort(int * v, int n)
 {
+    long comparacoes = 0;
     for (int i = 0; i < n - 1; i++)
     {
         int min = i;
         for (int j = i + 1; j < n; j++)
+        {
+            comparacoes++;
             if (v[j] < v[min]) min = j;
+        }
+            
         int temp = v[i];
         v[i] = v[min];
         v[min] = temp;
     }
+    return comparacoes;
 }
 
-void merge(int * v, int p, int q, int r)
+long merge(int * v, int p, int q, int r)
 {
+    long comparacoes = 0;
     int i, j, k;
     int n1 = q - p + 1;
     int n2 = r - q;
@@ -46,8 +57,10 @@ void merge(int * v, int p, int q, int r)
     j = 0;
     k = p;
 
+    comparacoes++;
     while (i < n1 && j < n2)
     {
+        comparacoes++;
         if (left[i] <= right[j])
         {
             v[k] = left[i];
@@ -61,19 +74,25 @@ void merge(int * v, int p, int q, int r)
         k++;
     }
 
+    comparacoes++;
     while (i < n1)
     {
+        comparacoes++;
         v[k] = left[i];
         i++;
         k++;
     }
 
+    comparacoes++;
     while (j < n2)
     {
+        comparacoes++;
         v[k] = right[j];
         j++;
         k++;
     }
+
+    return comparacoes;
 }
 
 /*
@@ -81,62 +100,72 @@ void merge(int * v, int p, int q, int r)
 
     É provável que isso seja uma limitação por usar estruturas auxiliares (os vetores left e right na função merge)
 */
-void mergeSort(int * v, int p, int r)
+long mergeSort(int * v, int p, int r)
 {
     if (p < r)
     {
         int q = floor((p + r) / 2);
-        mergeSort(v, p, q);
-        mergeSort(v, q + 1, r);
-        merge(v, p, q, r);
+        long c1 = mergeSort(v, p, q);
+        long c2 = mergeSort(v, q + 1, r);
+        return merge(v, p, q, r) + c1 + c2;
     }
+    return 0;
 }
 
-void maxHeapify(int * v, int n, int i)
+long maxHeapify(int * v, int n, int i)
 {
+    long comparacoes = 0;
     int temp, maximum, left, right;
 
     maximum = i;
     right = 2 * i + 2;
     left = 2 * i + 1;
 
+    comparacoes++;
     if (left < n && v[left] > v[maximum])
         maximum = left;
 
+    comparacoes++;
     if (right < n && v[right] > v[maximum])
         maximum = right;
 
+    comparacoes++;
     if (maximum != i)
     {
         temp = v[i];
         v[i] = v[maximum];
         v[maximum] = temp;
-        maxHeapify(v, n, maximum);
+        return maxHeapify(v, n, maximum) + comparacoes;
     }
+    return comparacoes;
 }
 
-void heapSort(int * v, int n)
+long heapSort(int * v, int n)
 {
     int i;
+    long comparacoes = 0;
 
     for (i = n / 2 - 1; i >= 0; i--)
-        maxHeapify(v, n, i);
+        comparacoes += maxHeapify(v, n, i);
 
     for (int i = n - 1; i > 0; i--)
     {
         int temp = v[0];
         v[0] = v[i];
         v[i] = temp;
-        maxHeapify(v, i, 0);
+        comparacoes += maxHeapify(v, i, 0);
     }
+    return comparacoes;
 }
 
-int partition(int * v, int p, int r)
+int partition(int * v, int p, int r, long * comparacoes)
 {
     int x = v[r]; // x é o pivô
     int i = p - 1;
 
     for (int j = p; j < r; j++)
+    {
+        (*comparacoes)++;
         if (v[j] <= x)
         {
             i++;
@@ -145,6 +174,7 @@ int partition(int * v, int p, int r)
             v[i] = v[j];
             v[j] = temp;
         }
+    }
 
     int temp = v[i + 1];
     v[i + 1] = v[r];
@@ -153,14 +183,17 @@ int partition(int * v, int p, int r)
     return i + 1;
 }
 
-void quickSort(int * v, int p, int r)
+long quickSort(int * v, int p, int r)
 {
     if (p < r)
     {
-        int q = partition(v, p, r);
-        quickSort(v, p, q - 1);
-        quickSort(v, q + 1, r);
+        long comparacoes = 0;
+        int q = partition(v, p, r, &comparacoes);
+        comparacoes += quickSort(v, p, q - 1);
+        comparacoes += quickSort(v, q + 1, r);
+        return comparacoes;
     }
+    return 0;
 }
 
 #endif
