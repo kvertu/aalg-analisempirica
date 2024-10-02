@@ -29,7 +29,7 @@ void notImplemented()
 /*
     Mostra os resultados da ordenação
 */
-void showResults(int * ref, int * sorted, int n, long sum, int attempts)
+void showResults(int * ref, int * sorted, int n, long sumc, long sump, int attempts)
 {
     printf("Fim da função! Validando... ");
     if (!compare(ref, sorted, n))
@@ -41,7 +41,8 @@ void showResults(int * ref, int * sorted, int n, long sum, int attempts)
         printf("Vetor \"Ordenado\": ");
         print(sorted, n);
     }
-    printf("\nForam feitas %d ordenações.\nTempo de execução média: %lfs (%lf clocks)\nNúmero de comparações média: %lf\n\n", attempts, getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sum / attempts);
+    printf("\nForam feitas %d ordenações.\nTempo de execução média: %.5lfs (%.2lf clocks)\nNúmero de comparações média: %.2lf\nNúmero de permutações média: %.2lf\n",
+    attempts, getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sumc / attempts, (double) sump / attempts);
 }
 
 int main(int argc, char * argv[])
@@ -76,7 +77,7 @@ int main(int argc, char * argv[])
     int choice;
     do
     {
-        long soma = 0;
+        long somac = 0, somap = 0; // A soma das trocas e permutações
         reset();
         helper();
         scanf(" %d", &choice);
@@ -93,11 +94,14 @@ int main(int argc, char * argv[])
             start();
             for (int i = 0; i < tentativas; i++)
             {
+                long c, p;
                 shuffle(shuffled, tam);
-                soma += insertionSort(shuffled, tam);
+                insertionSort(shuffled, tam, &c, &p);
+                somac += c;
+                somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, soma, tentativas);
+            showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 2:
             // Selection sort
@@ -105,11 +109,14 @@ int main(int argc, char * argv[])
             start();
             for (int i = 0; i < tentativas; i++)
             {
+                long c, p;
                 shuffle(shuffled, tam);
-                soma += selectionSort(shuffled, tam);
+                selectionSort(shuffled, tam, &c, &p);
+                somac += c;
+                somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, soma, tentativas);
+            showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 3:
             // Merge sort
@@ -117,11 +124,14 @@ int main(int argc, char * argv[])
             start();
             for (int i = 0; i < tentativas; i++)
             {
+                long c, p;
                 shuffle(shuffled, tam);
-                soma += mergeSort(shuffled, 0, tam - 1);
+                mergeSort(shuffled, 0, tam - 1, &c, &p);
+                somac += c;
+                somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, soma, tentativas);
+            showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 4:
             // Quick sort
@@ -129,11 +139,14 @@ int main(int argc, char * argv[])
             start();
             for (int i = 0; i < tentativas; i++)
             {
+                long c, p;
                 shuffle(shuffled, tam);
-                soma += quickSort(shuffled, 0, tam - 1);
+                quickSort(shuffled, 0, tam - 1, &c, &p);
+                somac += c;
+                somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, soma, tentativas);
+            showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 5:
             // Heap sort
@@ -141,11 +154,14 @@ int main(int argc, char * argv[])
             start();
             for (int i = 0; i < tentativas; i++)
             {
+                long c, p;
                 shuffle(shuffled, tam);
-                soma += heapSort(shuffled, tam);
+                heapSort(shuffled, tam, &c, &p);
+                somac += c;
+                somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, soma, tentativas);
+            showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         
         default:
