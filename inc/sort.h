@@ -1,6 +1,18 @@
+/*
+    Funções de ordenação
+
+    Parâmetros comuns entre (quase) todas as funções:
+        v: vetor a ser ordenado
+        n: tamanho do vetor
+        comps: quantidade de comparações na ordenação
+        perms: quantidade de permutações (trocas) na ordenação
+*/
 #ifndef SORT_H
 #define SORT_H
 
+/*
+    Ordenação por inserção
+*/
 void insertionSort(int * v, int n, long * comps, long * perms)
 {
     (*comps) = 0;
@@ -23,6 +35,9 @@ void insertionSort(int * v, int n, long * comps, long * perms)
     }
 }
 
+/*
+    Ordenação por inserção
+*/
 void selectionSort(int * v, int n, long * comps, long * perms)
 {
     (*comps) = 0;
@@ -43,6 +58,13 @@ void selectionSort(int * v, int n, long * comps, long * perms)
     }
 }
 
+/*
+    Função de interlacação usada no merge sort
+
+        p: indica o inicio do subvetor a ser intercalado
+        q: indica o meio do subvetor a ser intercalado
+        r: indica o final do subvetor a ser intercalado
+*/
 void merge(int * v, int p, int q, int r, long * comps, long * perms)
 {
     (*comps) = 0;
@@ -51,14 +73,13 @@ void merge(int * v, int p, int q, int r, long * comps, long * perms)
     int n1 = q - p + 1;
     int n2 = r - q;
 
+    // Cria e preenche os vetores auxiliares com os subvetores em questão
     int left[n1], right[n2];
-
     for (i = 0; i < n1; i++)
     {
         (*perms)++;
         left[i] = v[p + i];
     }
-        
     for (j = 0; j < n2; j++)
     {
         (*perms)++;
@@ -69,6 +90,7 @@ void merge(int * v, int p, int q, int r, long * comps, long * perms)
     j = 0;
     k = p;
 
+    // Começa a intercalar até um dos subvetores chegar no fim
     (*comps)++;
     while (i < n1 && j < n2)
     {
@@ -88,6 +110,7 @@ void merge(int * v, int p, int q, int r, long * comps, long * perms)
         k++;
     }
 
+    // Adiciona o que restar do subvetor left devolta em v (se tiver)
     (*comps)++;
     while (i < n1)
     {
@@ -98,6 +121,7 @@ void merge(int * v, int p, int q, int r, long * comps, long * perms)
         k++;
     }
 
+    // Adiciona o que restar do subvetor right devolta em v (se tiver)
     (*comps)++;
     while (j < n2)
     {
@@ -110,6 +134,7 @@ void merge(int * v, int p, int q, int r, long * comps, long * perms)
 }
 
 /*
+    Ordenação por intercalação
     Maior tamanho que o mergeSort consegue ordenar é 698558
 
     É provável que isso seja uma limitação por usar estruturas auxiliares (os vetores left e right na função merge)
@@ -120,16 +145,24 @@ void mergeSort(int * v, int p, int r, long * comps, long * perms)
     (*perms) = 0;
     if (p < r)
     {
-        int q = floor((p + r) / 2);
-        long c1, c2, c3, p1, p2, p3;
+        int q = (p + r) / 2; // Determina o meio do vetor
+
+        long c1, c2, c3, p1, p2, p3; // Variáveis temporárias para armazenar a quantidade de comparação e permutações nas funções
+
+        // Recursão
         mergeSort(v, p, q, &c1, &p1);
         mergeSort(v, q + 1, r, &c2, &p2);
+
+        // Intercalação
         merge(v, p, q, r, &c3, &p3);
         (*comps) = c1 + c2 + c3;
         (*perms) = p1 + p2 + p3;
     }
 }
 
+/*
+    Criação do max-heap
+*/
 void maxHeapify(int * v, int n, int i, long * comps, long * perms)
 {
     (*comps) = 0;
@@ -162,12 +195,16 @@ void maxHeapify(int * v, int n, int i, long * comps, long * perms)
     }
 }
 
+/*
+    Heap sort
+*/
 void heapSort(int * v, int n, long * comps, long * perms)
 {
     int i;
     (*comps) = 0;
     (*perms) = 0;
 
+    // Transforma o vetor em um max-heap
     for (i = n / 2 - 1; i >= 0; i--)
     {
         long c, p;
@@ -178,11 +215,13 @@ void heapSort(int * v, int n, long * comps, long * perms)
 
     for (int i = n - 1; i > 0; i--)
     {
+        // Troca o valor da primeira posição com o final da heap
         (*perms)++;
         int temp = v[0];
         v[0] = v[i];
         v[i] = temp;
 
+        // É refeito a transformação do max-heap, mas excluindo a última posição
         long c, p;
         maxHeapify(v, i, 0, &c, &p);
         (*comps) += c;
@@ -190,6 +229,12 @@ void heapSort(int * v, int n, long * comps, long * perms)
     }
 }
 
+/*
+    Particiona o vetor a partir de um pivô
+
+    Por padrão, o pivô é sempre o elemento na última posição do vetor
+    Retorna a posição final do pivô no vetor
+*/
 int partition(int * v, int p, int r, long * comps, long * perms)
 {
     (*comps) = 0;
@@ -219,16 +264,23 @@ int partition(int * v, int p, int r, long * comps, long * perms)
     return i + 1;
 }
 
+/*
+    Quick sort
+*/
 void quickSort(int * v, int p, int r, long * comps, long * perms)
 {
     (*comps) = 0;
     (*perms) = 0;
     if (p < r)
     {
-        int q = partition(v, p, r, comps, perms);
+        int q = partition(v, p, r, comps, perms); // Particionamento do vetor
         long c1, c2, p1, p2;
+
+        // Recursão
         quickSort(v, p, q - 1, &c1, &p1);
         quickSort(v, q + 1, r, &c2, &p2);
+        (*comps) += c1 + c2;
+        (*perms) += c1 + c2;
     }
 }
 

@@ -1,3 +1,7 @@
+/*
+    Funções básicas para manipulação dos vetores
+*/
+
 #ifndef BASE_H
 #define BASE_H
 
