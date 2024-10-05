@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void unsort(int * v, int n, void (*shuffler)(int *, int))
+{
+    (*shuffler)(v, n);
+}
 /*
     Retorna um número aleatório entre 0 e 1 (inclusivo)
 */

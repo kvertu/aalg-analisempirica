@@ -3,6 +3,13 @@
 #include "inc/timer.h"
 
 /*
+    Nesta main as funções de embaralhamento são executadas fora das funções de ordenação 
+    permitindo que todos os algoritmos de ordenação trabalhem com o mesmo vetor.
+
+    /Trabalhar com tentativas = 1
+*/
+
+/*
     Mostra as opções do programa
 */
 void helper()
@@ -70,6 +77,7 @@ int main(int argc, char * argv[])
     identity(reference, tam);
     int shuffled[tam]; // Vetor a ser ordenado
     copy(shuffled, reference, tam);
+    int copyShuffled[tam]; //Vetor que recebe a copia do vetor desordenado
 
     //Ponteiro p/ a função de embaralhamento
     void (*chosenShuffler)(int *, int) = NULL;
@@ -88,22 +96,23 @@ int main(int argc, char * argv[])
     printf("\n4 - Mantém o vetor ordenado \n");
     scanf("%d", &sortOption);
  
-
+    //Menu para escolher a forma de "desordenação"
+    //O vetor já sai desse switch desordenado
     switch(sortOption){
         case 1:
-            chosenShuffler = shuffle;
+            unsort(shuffled, tam, shuffle);
             break;
         // case 2: adicionar função embaralha parcial do Cauê 
         //     break;     
         case 3:
-            chosenShuffler = invert;
+            unsort(shuffled, tam, invert);
             break;
         case 4:
-            chosenShuffler = dontChange;
+            unsort(shuffled, tam, dontChange);
             break; 
         default:
-            printf("Função de embaralhamento não escolhida! \nFunção shuffle escolhida por padrão ");
-            chosenShuffler = shuffle;
+            printf("Função de embaralhamento não escolhida! \nFunção shuffle escolhida por padrão\n\n ");
+            unsort(shuffled, tam, shuffle);
             break;  
    
     }
@@ -129,18 +138,19 @@ int main(int argc, char * argv[])
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
-                unsort(shuffled, tam, chosenShuffler);
-                // printf("Antes da ordenação: ");
-                // print(shuffled, tam);
-                insertionSort(shuffled, tam, &c, &p);
-                // printf("\nDepois da ordenação: ");
-                // print(shuffled, tam);
-                // printf("\n");
+                printf("Antes da ordenação: ");
+                print(shuffled, tam);
+                copy(copyShuffled, shuffled, tam); //Copia o valor do vetor desordenado para utilizar na função de ordenação
+                insertionSort(copyShuffled, tam, &c, &p);
+                printf("\nDepois da ordenação: ");
+                
+                print(copyShuffled, tam);
+                printf("\n");
                 somac += c;
                 somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, somac, somap, tentativas);
+            showResults(reference, copyShuffled, tam, somac, somap, tentativas);
             break;
         case 2:
             // Selection sort
@@ -149,17 +159,17 @@ int main(int argc, char * argv[])
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
-                unsort(shuffled, tam, chosenShuffler);
-                // printf("\nAntes da ordenação: ");
-                // print(shuffled, tam);
-                selectionSort(shuffled, tam, &c, &p);
-                // printf("\nDepois da ordenação: ");
-                // print(shuffled, tam);
+                printf("\nAntes da ordenação: ");
+                print(shuffled, tam);
+                copy(copyShuffled, shuffled, tam);
+                selectionSort(copyShuffled, tam, &c, &p);
+                printf("\nDepois da ordenação: ");
+                print(copyShuffled, tam);
                 somac += c;
                 somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, somac, somap, tentativas);
+            showResults(reference, copyShuffled, tam, somac, somap, tentativas);
             break;
         case 3:
             // Merge sort
@@ -168,17 +178,17 @@ int main(int argc, char * argv[])
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
-                unsort(shuffled, tam, chosenShuffler);
-                // printf("\nAntes da ordenação: ");
-                // print(shuffled, tam);
-                mergeSort(shuffled, 0, tam - 1, &c, &p);
-                // printf("\nDepois da ordenação: ");
-                // print(shuffled, tam);
+                printf("\nAntes da ordenação: ");
+                print(shuffled, tam);
+                copy(copyShuffled, shuffled, tam);
+                mergeSort(copyShuffled, 0, tam - 1, &c, &p);
+                printf("\nDepois da ordenação: ");
+                print(copyShuffled, tam);
                 somac += c;
                 somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, somac, somap, tentativas);
+            showResults(reference, copyShuffled, tam, somac, somap, tentativas);
             break;
         case 4:
             // Quick sort
@@ -187,17 +197,17 @@ int main(int argc, char * argv[])
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
-                unsort(shuffled, tam, chosenShuffler);
-                //printf("\nAntes da ordenação: ");
-                //print(shuffled, tam);
-                quickSort(shuffled, 0, tam - 1, &c, &p);
-                // printf("\nDepois da ordenação: ");
-                // print(shuffled, tam);
+                printf("\nAntes da ordenação: ");
+                print(shuffled, tam);
+                copy(copyShuffled, shuffled, tam);
+                quickSort(copyShuffled, 0, tam - 1, &c, &p);
+                printf("\nDepois da ordenação: ");
+                print(copyShuffled, tam);
                 somac += c;
                 somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, somac, somap, tentativas);
+            showResults(reference, copyShuffled, tam, somac, somap, tentativas);
             break;
         case 5:
             // Heap sort
@@ -206,17 +216,17 @@ int main(int argc, char * argv[])
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
-                unsort(shuffled, tam, chosenShuffler);
-                // printf("\nAntes da ordenação: ");
-                // print(shuffled, tam);
-                heapSort(shuffled, tam, &c, &p);
-                // printf("\nDepois da ordenação: ");
-                // print(shuffled, tam);
+                printf("\nAntes da ordenação: ");
+                print(shuffled, tam);
+                copy(copyShuffled, shuffled, tam);
+                heapSort(copyShuffled, tam, &c, &p);
+                printf("\nDepois da ordenação: ");
+                print(copyShuffled, tam);
                 somac += c;
                 somap += p;
             }
             stop();
-            showResults(reference, shuffled, tam, somac, somap, tentativas);
+            showResults(reference, copyShuffled, tam, somac, somap, tentativas);
             break;
         
         default:
