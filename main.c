@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
     void (*chosenShuffler)(int *, int) = NULL;
 
     printf("Vetor de referência (tamanho: %d): ", tam);
-    print(reference, tam);
+    // print(reference, tam);
 
     int choice;
     int sortOption;
