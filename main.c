@@ -45,9 +45,9 @@ void showResults(int * ref, int * sorted, int n, long sumc, long sump, int attem
     attempts, getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sumc / attempts, (double) sump / attempts);
 }
 
-void showSampleResults(int i, long c, long p)
+void showSampleResults(int i, long c, long p, double t)
 {
-    printf("\nAmostra #%d\nTempo atual: %.5lfs\nComparações nesta ordenação: %ld\n Permutações nesta ordenação: %ld\n\n", i, getElapsedTimeInSeconds(), c, p);
+    printf("\nAmostra #%d\nTempo atual: %.5lfs\nComparações nesta ordenação: %ld\nPermutações nesta ordenação: %ld\n\n", i, t, c, p);
 }
 
 int main(int argc, char * argv[])
@@ -117,6 +117,7 @@ int main(int argc, char * argv[])
     do
     {
         long somac = 0, somap = 0; // A soma das trocas e permutações
+        double somat = 0; // A soma dos tempos de execução
         reset();
         helper();
         scanf(" %d", &choice);
@@ -144,7 +145,8 @@ int main(int argc, char * argv[])
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
                 // printf("\n");
-                showSampleResults(i, c, p);
+                showSampleResults(i, c, p, getElapsedTimeInSeconds() - somat);
+                somat = getElapsedTimeInSeconds();
                 somac += c;
                 somap += p;
             }
@@ -166,7 +168,8 @@ int main(int argc, char * argv[])
                 stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
-                showSampleResults(i, c, p);
+                showSampleResults(i, c, p, getElapsedTimeInSeconds() - somat);
+                somat = getElapsedTimeInSeconds();
                 somac += c;
                 somap += p;
             }
@@ -188,7 +191,8 @@ int main(int argc, char * argv[])
                 stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
-                showSampleResults(i, c, p);
+                showSampleResults(i, c, p, getElapsedTimeInSeconds() - somat);
+                somat = getElapsedTimeInSeconds();
                 somac += c;
                 somap += p;
             }
@@ -210,7 +214,8 @@ int main(int argc, char * argv[])
                 stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
-                showSampleResults(i, c, p);
+                showSampleResults(i, c, p, getElapsedTimeInSeconds() - somat);
+                somat = getElapsedTimeInSeconds();
                 somac += c;
                 somap += p;
             }
@@ -232,7 +237,8 @@ int main(int argc, char * argv[])
                 stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
-                showSampleResults(i, c, p);
+                showSampleResults(i, c, p, getElapsedTimeInSeconds() - somat);
+                somat = getElapsedTimeInSeconds();
                 somac += c;
                 somap += p;
             }
