@@ -45,6 +45,11 @@ void showResults(int * ref, int * sorted, int n, long sumc, long sump, int attem
     attempts, getElapsedTimeInSeconds() / attempts, (double) getElapsedTimeInClocks() / attempts, (double) sumc / attempts, (double) sump / attempts);
 }
 
+void showSampleResults(int i, long c, long p)
+{
+    printf("\nAmostra #%d\nTempo atual: %.5lfs\nComparações nesta ordenação: %ld\n Permutações nesta ordenação: %ld\n\n", i, getElapsedTimeInSeconds(), c, p);
+}
+
 int main(int argc, char * argv[])
 {
     if (argc != 3)
@@ -93,8 +98,8 @@ int main(int argc, char * argv[])
         case 1:
             chosenShuffler = shuffle;
             break;
-        case 2: 
-            unsort(shuffled, tam, shufflePartial); 
+        case 2:
+            chosenShuffler = shufflePartial;
             break;     
         case 3:
             chosenShuffler = invert;
@@ -126,97 +131,112 @@ int main(int argc, char * argv[])
         case 1:
             // Insertion sort
             printf("Ordenando... \n");
-            start();
+            
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
                 unsort(shuffled, tam, chosenShuffler);
                 // printf("Antes da ordenação: ");
                 // print(shuffled, tam);
+                start();
                 insertionSort(shuffled, tam, &c, &p);
+                stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
                 // printf("\n");
+                showSampleResults(i, c, p);
                 somac += c;
                 somap += p;
             }
-            stop();
+            
             showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 2:
             // Selection sort
             printf("Ordenando... \n");
-            start();
+
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
                 unsort(shuffled, tam, chosenShuffler);
                 // printf("\nAntes da ordenação: ");
                 // print(shuffled, tam);
+                start();
                 selectionSort(shuffled, tam, &c, &p);
+                stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
+                showSampleResults(i, c, p);
                 somac += c;
                 somap += p;
             }
-            stop();
+            
             showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 3:
             // Merge sort
             printf("Ordenando... \n");
-            start();
+            
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
                 unsort(shuffled, tam, chosenShuffler);
                 // printf("\nAntes da ordenação: ");
                 // print(shuffled, tam);
+                start();
                 mergeSort(shuffled, 0, tam - 1, &c, &p);
+                stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
+                showSampleResults(i, c, p);
                 somac += c;
                 somap += p;
             }
-            stop();
+            
             showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 4:
             // Quick sort
             printf("Ordenando... \n");
-            start();
+            
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
                 unsort(shuffled, tam, chosenShuffler);
                 //printf("\nAntes da ordenação: ");
                 //print(shuffled, tam);
+                start();
                 quickSort(shuffled, 0, tam - 1, &c, &p);
+                stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
+                showSampleResults(i, c, p);
                 somac += c;
                 somap += p;
             }
-            stop();
+            
             showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         case 5:
             // Heap sort
             printf("Ordenando... \n");
-            start();
+            
             for (int i = 0; i < tentativas; i++)
             {
                 long c, p;
                 unsort(shuffled, tam, chosenShuffler);
                 // printf("\nAntes da ordenação: ");
                 // print(shuffled, tam);
+                start();
                 heapSort(shuffled, tam, &c, &p);
+                stop();
                 // printf("\nDepois da ordenação: ");
                 // print(shuffled, tam);
+                showSampleResults(i, c, p);
                 somac += c;
                 somap += p;
             }
-            stop();
+            
             showResults(reference, shuffled, tam, somac, somap, tentativas);
             break;
         
