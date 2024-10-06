@@ -93,8 +93,9 @@ int main(int argc, char * argv[])
         case 1:
             chosenShuffler = shuffle;
             break;
-        // case 2: adicionar função embaralha parcial do Cauê 
-        //     break;     
+        case 2: 
+            unsort(shuffled, tam, shufflePartial); 
+            break;     
         case 3:
             chosenShuffler = invert;
             break;

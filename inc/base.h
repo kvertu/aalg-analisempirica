@@ -38,6 +38,46 @@ void shuffle(int * v, int n)
         v[random] = temp;
     }
 }
+/*
+    Embaralha um vetor de tamanho n, dividindo o vetor em setores e embaralhando a quantidade deseja de setores.
+*/
+void shufflePartial(int * v, int n)
+{
+    int current = n;
+    int division = 5;
+    int disorder = 3;
+    int order = division - disorder;
+    int sector = current/division;
+    int controller = current - sector;
+    int controllerLoop = division;
+
+    while (controllerLoop != 0)
+    {
+        
+        if(disorder > 0){
+            while(current > controller){
+                int random = floor(randomD() * sector) + controller;
+                current--;
+
+                int temp = v[current];
+                v[current] = v[random];
+                v[random] = temp;
+            }
+            disorder--;
+            controller = current - sector;
+        }
+
+        if(order > 0){
+            current = current - sector;
+            order--;
+            controller = current - sector;
+        }
+        controllerLoop--;
+
+    }
+
+}
+
 
 /*
     Inverte um vetor de tamanho n
