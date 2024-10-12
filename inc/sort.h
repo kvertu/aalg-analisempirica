@@ -30,7 +30,6 @@ void insertionSort(int * v, int n, long * comps, long * perms)
             v[i + 1] = v[i];
             i--;
         }
-        (*perms)++;
         v[i + 1] = key;
     }
 }
