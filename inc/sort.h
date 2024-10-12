@@ -18,8 +18,7 @@ void insertionSort(int * v, int n, long * comps, long * perms)
     (*comps) = 0;
     (*perms) = 0;
     for (int j = 1; j < n; j++)
-    {
-        (*perms)++;
+    {        
         int key = v[j];
         int i = j - 1;
         (*comps)++;
@@ -31,6 +30,7 @@ void insertionSort(int * v, int n, long * comps, long * perms)
             i--;
         }
         v[i + 1] = key;
+        (*perms)++;
     }
 }
 
